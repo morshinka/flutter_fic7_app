@@ -16,8 +16,7 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
       emit(const _Loading());
       final result = await AuthRemoteDatasource().register(event.model);
       result.fold(
-          (error) => emit(_Error(error)), 
-          (data) => emit(_Loaded(data)));
+          (error) => emit(_Error(error)), (data) => emit(_Loaded(data)));
     });
   }
 }
