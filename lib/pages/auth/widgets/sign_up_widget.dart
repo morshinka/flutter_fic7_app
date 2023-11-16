@@ -139,19 +139,20 @@ class SignUpWidgetState extends State<SignUpWidget> {
           child: BlocListener<RegisterBloc, RegisterState>(
             listener: (context, state) {
               state.maybeWhen(
-                  orElse: () {},
-                  error: (message) {
-                    return ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text(message)),
-                    );
-                  },
-                  loaded: (data) async {
-                    await AuthLocalDatasource().saveAuthData(data);
-                    Navigator.pushAndRemoveUntil(context,
-                        MaterialPageRoute(builder: (context) {
-                      return const DashboardPage();
-                    }), (route) => false);
-                  });
+                orElse: () {},
+                error: (message) {
+                  return ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text(message)),
+                  );
+                },
+                loaded: (data) async {
+                  await AuthLocalDatasource().saveAuthData(data);
+                  Navigator.pushAndRemoveUntil(context,
+                      MaterialPageRoute(builder: (context) {
+                    return const DashboardPage();
+                  }), (route) => false);
+                },
+              );
             },
             child: BlocBuilder<RegisterBloc, RegisterState>(
               builder: (context, state) {

@@ -29,12 +29,12 @@ class AuthResponseModel {
 class User {
   final int id;
   final String name;
-  final String role;
+  // final String role;
 
   User({
     required this.id,
     required this.name,
-    required this.role,
+    // required this.role,
   });
 
   factory User.fromJson(String str) => User.fromMap(json.decode(str));
@@ -44,12 +44,12 @@ class User {
   factory User.fromMap(Map<String, dynamic> json) => User(
         id: json["id"],
         name: json["name"],
-        role: json["role"],
+        // role: json["role"],
       );
 
   Map<String, dynamic> toMap() => {
         "id": id,
         "name": name,
-        "role": role,
+        // "role": role,
       };
 }
