@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_fic7_app/bloc/login/login_bloc.dart';
+import 'package:flutter_fic7_app/data/datasource/auth_local_datasource.dart';
+import 'package:flutter_fic7_app/data/models/request/login_request_model.dart';
 
 import '../../base_widgets/button/custom_button.dart';
 import '../../base_widgets/text_field/custom_password_textfield.dart';
@@ -17,16 +21,10 @@ class SignInWidget extends StatefulWidget {
 
 class SignInWidgetState extends State<SignInWidget> {
   TextEditingController? _emailController;
-  TextEditingController? _passwordController;
+  final FocusNode _emailNode = FocusNode();
   GlobalKey<FormState>? _formKeyLogin;
-
-  @override
-  void initState() {
-    super.initState();
-    _formKeyLogin = GlobalKey<FormState>();
-    _emailController = TextEditingController();
-    _passwordController = TextEditingController();
-  }
+  final FocusNode _passNode = FocusNode();
+  TextEditingController? _passwordController;
 
   @override
   void dispose() {
@@ -35,8 +33,13 @@ class SignInWidgetState extends State<SignInWidget> {
     super.dispose();
   }
 
-  final FocusNode _emailNode = FocusNode();
-  final FocusNode _passNode = FocusNode();
+  @override
+  void initState() {
+    super.initState();
+    _formKeyLogin = GlobalKey<FormState>();
+    _emailController = TextEditingController();
+    _passwordController = TextEditingController();
+  }
 
   void loginUser() async {
     if (_formKeyLogin!.currentState!.validate()) {
@@ -55,7 +58,10 @@ class SignInWidgetState extends State<SignInWidget> {
           content: Text('Password'),
           backgroundColor: Colors.red,
         ));
-      } else {}
+      } else {
+        final model = LoginRequestModel(email: email, password: password);
+        context.read<LoginBloc>().add(LoginEvent.login(model));
+      }
     }
   }
 
@@ -117,7 +123,30 @@ class SignInWidgetState extends State<SignInWidget> {
             Container(
               margin: const EdgeInsets.only(
                   left: 20, right: 20, bottom: 20, top: 30),
-              child: CustomButton(onTap: loginUser, buttonText: 'Sign In'),
+              child: BlocConsumer<LoginBloc, LoginState>(
+                listener: (context, state) {
+                  state.maybeWhen(
+                    orElse: () {},
+                    loaded: (data) async {
+                      await AuthLocalDatasource().saveAuthData(data);
+                      Navigator.pushAndRemoveUntil(context,
+                          MaterialPageRoute(builder: (context) {
+                        return const DashboardPage();
+                      }), (route) => false);
+                    },
+                  );
+                },
+                builder: (context, state) {
+                  return state.maybeWhen(
+                      orElse: () {
+                        return CustomButton(
+                            onTap: loginUser, buttonText: 'Sign In');
+                      },
+                      loading: () => const Center(
+                            child: CircularProgressIndicator(),
+                          ));
+                },
+              ),
             ),
             const SizedBox(width: Dimensions.paddingSizeDefault),
             const SizedBox(width: Dimensions.paddingSizeDefault),
