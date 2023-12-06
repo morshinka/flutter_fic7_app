@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_fic7_app/pages/home/home_page.dart';
 
 import '../../data/datasource/auth_local_datasource.dart';
 import '../utils/images.dart';
@@ -31,13 +32,7 @@ class _HomePageState extends State<DashboardPage> {
     });
 
     _screens = [
-      const Center(
-        child: Column(
-          children: [
-            Text('Home'),
-          ],
-        ),
-      ),
+      const HomePage(),
       const Center(
         child: Text('Order'),
       ),

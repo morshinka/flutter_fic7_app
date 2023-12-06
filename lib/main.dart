@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_fic7_app/bloc/login/login_bloc.dart';
+import 'package:flutter_fic7_app/bloc/logout/logout_bloc.dart';
 import 'package:flutter_fic7_app/pages/auth/auth_pages.dart';
 import 'package:flutter_fic7_app/pages/utils/light_themes.dart';
 
@@ -14,8 +16,18 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => RegisterBloc(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => RegisterBloc(),
+        ),
+        BlocProvider(
+          create: (context) => LoginBloc(),
+        ),
+        BlocProvider(
+          create: (context) => LogoutBloc(),
+        ),
+      ],
       child: MaterialApp(
         title: 'Flutter Demo',
         theme: light,
