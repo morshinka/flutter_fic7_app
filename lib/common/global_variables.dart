@@ -1,6 +1,6 @@
 class GlobarVariables {
   // harus dibuah sesuai link yang ada pada ngrok
   static const baseUrl =
-      ' https://febd-2001-448a-4060-3d62-f43f-841a-6947-3f13.ngrok-free.app';
+      'https://be2d-2001-448a-4061-13a9-9d18-f139-4799-f81.ngrok-free.app';
   // end ngrok
 }
