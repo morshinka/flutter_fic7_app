@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_fic7_app/bloc/Categories/categories_bloc.dart';
+import 'package:flutter_fic7_app/bloc/Products/products_bloc.dart';
 
 import '../base_widgets/title_row.dart';
 import '../utils/color_resource.dart';
@@ -29,6 +32,8 @@ class _HomePageState extends State<HomePage> {
   bool singleVendor = false;
   @override
   void initState() {
+    context.read<ProductsBloc>().add(const ProductsEvent.getAll());
+    context.read<CategoriesBloc>().add(const CategoriesEvent.categories());
     super.initState();
   }
 
@@ -174,22 +179,76 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
               ),
-              SliverPadding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                sliver: SliverGrid(
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    mainAxisSpacing: 10.0,
-                    crossAxisSpacing: 10.0,
-                    childAspectRatio: 1.5 / 2,
-                  ),
-                  delegate: SliverChildBuilderDelegate(
-                    (BuildContext context, int index) {
-                      return const ProductItemWidget();
+              BlocBuilder<ProductsBloc, ProductsState>(
+                builder: (context, state) {
+                  return state.maybeWhen(
+                    orElse: () {
+                      return SliverPadding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16),
+                        sliver: SliverGrid(
+                          gridDelegate:
+                              const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 1,
+                            mainAxisSpacing: 10.0,
+                            crossAxisSpacing: 10.0,
+                            childAspectRatio: 1.5 / 2,
+                          ),
+                          delegate: SliverChildBuilderDelegate(
+                            (BuildContext context, int index) {
+                              return const Center(
+                                child: CircularProgressIndicator(),
+                              );
+                            },
+                            childCount: 1,
+                          ),
+                        ),
+                      );
                     },
-                    childCount: 20,
-                  ),
-                ),
+                    error: (message) {
+                      return SliverPadding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16),
+                        sliver: SliverGrid(
+                          gridDelegate:
+                              const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 1,
+                            mainAxisSpacing: 10.0,
+                            crossAxisSpacing: 10.0,
+                            childAspectRatio: 1.5 / 2,
+                          ),
+                          delegate: SliverChildBuilderDelegate(
+                            (BuildContext context, int index) {
+                              return Center(
+                                child: Text(message),
+                              );
+                            },
+                            childCount: 1,
+                          ),
+                        ),
+                      );
+                    },
+                    loaded: (model) {
+                      return SliverPadding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16),
+                        sliver: SliverGrid(
+                          gridDelegate:
+                              const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2,
+                            mainAxisSpacing: 10.0,
+                            crossAxisSpacing: 10.0,
+                            childAspectRatio: 1.5 / 2,
+                          ),
+                          delegate: SliverChildBuilderDelegate(
+                            (BuildContext context, int index) {
+                              return ProductItemWidget(
+                                  product: model.data![index]);
+                            },
+                            childCount: model.data!.length,
+                          ),
+                        ),
+                      );
+                    },
+                  );
+                },
               ),
             ],
           ),
