@@ -31,19 +31,19 @@ class CategoryProductsPage extends StatelessWidget {
           const SizedBox(height: Dimensions.paddingSizeSmall),
 
           // Products
-          Expanded(
-            child: MasonryGridView.count(
-              padding: const EdgeInsets.symmetric(
-                  horizontal: Dimensions.paddingSizeSmall),
-              physics: const BouncingScrollPhysics(),
-              crossAxisCount: 2,
-              itemCount: 4,
-              shrinkWrap: true,
-              itemBuilder: (BuildContext context, int index) {
-                return const ProductItemWidget();
-              },
-            ),
-          )
+          // Expanded(
+          //   child: MasonryGridView.count(
+          //     padding: const EdgeInsets.symmetric(
+          //         horizontal: Dimensions.paddingSizeSmall),
+          //     physics: const BouncingScrollPhysics(),
+          //     crossAxisCount: 2,
+          //     itemCount: 4,
+          //     shrinkWrap: true,
+          //     itemBuilder: (BuildContext context, int index) {
+          //       return const ProductItemWidget();
+          //     },
+          //   ),
+          // ),
         ],
       ),
     );
