@@ -20,7 +20,7 @@ class ProductSpecification extends StatelessWidget {
         ),
         const SizedBox(height: Dimensions.paddingSizeExtraSmall),
         productSpecification.isNotEmpty
-            ? const Expanded(child: Text('Description'))
+            ? Expanded(child: Text(productSpecification))
             : const Center(child: Text('No specification')),
         const SizedBox(height: Dimensions.paddingSizeDefault),
       ],

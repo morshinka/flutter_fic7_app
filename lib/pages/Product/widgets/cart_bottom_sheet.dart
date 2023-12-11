@@ -1,7 +1,12 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 // import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_fic7_app/bloc/Checkout/checkout_bloc.dart';
+import 'package:flutter_fic7_app/pages/utils/price_ext.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+
+import 'package:flutter_fic7_app/data/models/request/product_response_model.dart';
 
 import '../../base_widgets/button/custom_button.dart';
 import '../../cart/cart_page.dart';
@@ -11,15 +16,21 @@ import '../../utils/dimensions.dart';
 import '../../utils/images.dart';
 
 class CartBottomSheet extends StatefulWidget {
+  final Product product;
   final Function? callback;
-  const CartBottomSheet({Key? key, this.callback}) : super(key: key);
+  const CartBottomSheet({
+    Key? key,
+    required this.product,
+    this.callback,
+  }) : super(key: key);
 
   @override
   CartBottomSheetState createState() => CartBottomSheetState();
 }
 
 class CartBottomSheetState extends State<CartBottomSheet> {
-  route(bool isRoute, String message) async {}
+  int quantity = 1;
+  // route(bool isRoute, String message) async {}
   @override
   void initState() {
     super.initState();
@@ -82,7 +93,7 @@ class CartBottomSheetState extends State<CartBottomSheet> {
                             borderRadius: BorderRadius.circular(5),
                             child: FadeInImage.assetNetwork(
                               placeholder: Images.placeholder,
-                              image: 'https://picsum.photos/250',
+                              image: widget.product.imageProduct!,
                               imageErrorBuilder: (c, o, s) =>
                                   Image.asset(Images.placeholder),
                             ),
@@ -93,7 +104,7 @@ class CartBottomSheetState extends State<CartBottomSheet> {
                           child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text('Product Name',
+                                Text(widget.product.name!,
                                     style: titilliumRegular.copyWith(
                                         fontSize: Dimensions.fontSizeLarge),
                                     maxLines: 2,
@@ -119,7 +130,7 @@ class CartBottomSheetState extends State<CartBottomSheet> {
                       const SizedBox(width: Dimensions.paddingSizeDefault),
                       const SizedBox(width: Dimensions.paddingSizeDefault),
                       Text(
-                        'Rp 2000.000',
+                        '${widget.product.price}'.formatPrice(),
                         style: titilliumRegular.copyWith(
                             color: ColorResources.getPrimary(context),
                             fontSize: Dimensions.fontSizeExtraLarge),
@@ -132,31 +143,74 @@ class CartBottomSheetState extends State<CartBottomSheet> {
               const SizedBox(
                 height: Dimensions.paddingSizeSmall,
               ),
-              const Row(children: [
-                Text('Quantity', style: robotoBold),
-                QuantityButton(
-                    isIncrement: false,
-                    quantity: 10,
-                    stock: 10,
-                    minimumOrderQuantity: 1,
-                    digitalProduct: true),
-                Text('10', style: titilliumSemiBold),
-                QuantityButton(
-                    isIncrement: true,
-                    quantity: 10,
-                    stock: 10,
-                    minimumOrderQuantity: 1,
-                    digitalProduct: true),
+              Row(children: [
+                const Text('Quantity', style: robotoBold),
+                GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      quantity -= 1;
+                    });
+                  },
+                  child: Container(
+                    width: 80,
+                    height: 50,
+                    decoration: const BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Colors.blue, // Ubah warna sesuai kebutuhan Anda
+                    ),
+                    child: const Center(
+                      child: Text(
+                        '-',
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(
+                  width: 10,
+                ),
+                Text('$quantity',
+                    style: titilliumSemiBold.copyWith(
+                        fontSize: Dimensions.fontSizeExtraLarge)),
+                GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      quantity += 1;
+                    });
+                  },
+                  child: Container(
+                    width: 80,
+                    height: 50,
+                    decoration: const BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Colors.blue,
+                    ),
+                    child: const Center(
+                      child: Text(
+                        '+',
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
               ]),
               const SizedBox(height: Dimensions.paddingSizeSmall),
               Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                 const Text('Total Price', style: robotoBold),
                 const SizedBox(width: Dimensions.paddingSizeSmall),
                 Text(
-                  'Rp 4.000.000',
+                  '${widget.product.price! * quantity}'.formatPrice(),
                   style: titilliumBold.copyWith(
                       color: ColorResources.getPrimary(context),
-                      fontSize: Dimensions.fontSizeLarge),
+                      fontSize: Dimensions.fontSizeExtraLarge),
                 ),
               ]),
               const SizedBox(height: Dimensions.paddingSizeSmall),
@@ -166,8 +220,10 @@ class CartBottomSheetState extends State<CartBottomSheet> {
                     child: CustomButton(
                         buttonText: 'Add to Cart',
                         onTap: () {
-                          Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => const CartPage()));
+                          context.read<CheckoutBloc>().add(
+                              CheckoutEvent.addToChart(
+                                  widget.product, quantity));
+                          Navigator.pop(context);
                         }),
                   ),
                   const SizedBox(width: Dimensions.paddingSizeDefault),

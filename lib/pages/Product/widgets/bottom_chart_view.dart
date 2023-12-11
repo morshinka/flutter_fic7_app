@@ -1,4 +1,9 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_fic7_app/bloc/Checkout/checkout_bloc.dart';
+
+import 'package:flutter_fic7_app/data/models/request/product_response_model.dart';
 
 import '../../base_widgets/show_custom_snackbar.dart';
 import '../../cart/cart_page.dart';
@@ -9,8 +14,10 @@ import '../../utils/images.dart';
 import 'cart_bottom_sheet.dart';
 
 class BottomCartView extends StatefulWidget {
+  final Product product;
   const BottomCartView({
     Key? key,
+    required this.product,
   }) : super(key: key);
 
   @override
@@ -66,11 +73,23 @@ class _BottomCartViewState extends State<BottomCartView> {
                       shape: BoxShape.circle,
                       color: ColorResources.getPrimary(context),
                     ),
-                    child: Text(
-                      '3',
-                      style: titilliumSemiBold.copyWith(
-                          fontSize: Dimensions.fontSizeExtraSmall,
-                          color: Theme.of(context).highlightColor),
+                    child: BlocBuilder<CheckoutBloc, CheckoutState>(
+                      builder: (context, state) {
+                        return state.map(
+                          loaded: (value) {
+                            int totalQty = 0;
+                            value.products.forEach((element) {
+                              totalQty += element.quantity;
+                            });
+                            return Text(
+                              '$totalQty',
+                              style: titilliumSemiBold.copyWith(
+                                  fontSize: Dimensions.fontSizeExtraSmall,
+                                  color: Theme.of(context).highlightColor),
+                            );
+                          },
+                        );
+                      },
                     ),
                   ),
                 )
@@ -88,6 +107,7 @@ class _BottomCartViewState extends State<BottomCartView> {
                       backgroundColor:
                           Theme.of(context).primaryColor.withOpacity(0),
                       builder: (con) => CartBottomSheet(
+                            product: widget.product,
                             callback: () {
                               showCustomSnackBar('Add to Cart', context,
                                   isError: false);

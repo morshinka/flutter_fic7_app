@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_fic7_app/bloc/Categories/categories_bloc.dart';
+import 'package:flutter_fic7_app/bloc/Checkout/checkout_bloc.dart';
 import 'package:flutter_fic7_app/bloc/Products/products_bloc.dart';
 import 'package:flutter_fic7_app/bloc/login/login_bloc.dart';
 import 'package:flutter_fic7_app/bloc/logout/logout_bloc.dart';
@@ -36,6 +37,9 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (context) => CategoriesBloc(),
+        ),
+        BlocProvider(
+          create: (context) => CheckoutBloc(),
         ),
       ],
       child: MaterialApp(

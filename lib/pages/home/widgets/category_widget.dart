@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_fic7_app/bloc/Categories/categories_bloc.dart';
-
-import '../../Product/category_products_page.dart';
 import 'category_item_widget.dart';
 
 class CategoryWidget extends StatelessWidget {
@@ -41,17 +39,19 @@ class CategoryWidget extends StatelessWidget {
               itemBuilder: (BuildContext context, int index) {
                 return InkWell(
                   onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (_) => const CategoryProductsPage(
-                          isBrand: false,
-                          id: '1',
-                        ),
-                      ),
-                    );
+                    // Navigator.push(
+                    //   context,
+                    //   MaterialPageRoute(
+                    //     builder: (_) => const CategoryProductsPage(
+                    //       isBrand: false,
+                    //       id: '1',
+                    //     ),
+                    //   ),
+                    // );
                   },
-                  child: CategoryItemWiget(category: model.data![index],),
+                  child: CategoryItemWiget(
+                    category: model.data![index],
+                  ),
                 );
               },
             );
