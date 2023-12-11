@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:flutter_fic7_app/data/models/request/product_response_model.dart';
+import 'package:flutter_fic7_app/pages/utils/price_ext.dart';
 
 import '../../Product/product_detail.dart';
 import '../../base_widgets/rating_bar.dart';
@@ -22,7 +23,9 @@ class ProductItemWidget extends StatelessWidget {
     return InkWell(
       onTap: () {
         Navigator.push(context, MaterialPageRoute(builder: (context) {
-          return const ProductDetail();
+          return ProductDetail(
+            product: product,
+          );
         }));
       },
       child: Container(
@@ -102,7 +105,7 @@ class ProductItemWidget extends StatelessWidget {
                       height: 2,
                     ),
                     Text(
-                      '${product.price}',
+                      '${product.price}'.formatPrice(),
                       style: titilliumSemiBold.copyWith(
                           color: ColorResources.getPrimary(context)),
                     ),

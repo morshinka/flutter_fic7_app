@@ -1,4 +1,7 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
+
+import 'package:flutter_fic7_app/data/models/request/product_response_model.dart';
 
 import '../utils/custom_themes.dart';
 import '../utils/dimensions.dart';
@@ -7,10 +10,12 @@ import 'widgets/product_image_view.dart';
 import 'widgets/product_specification_view.dart';
 import 'widgets/product_title_view.dart';
 
-
-
 class ProductDetail extends StatefulWidget {
-  const ProductDetail({super.key});
+  final Product product;
+  const ProductDetail({
+    Key? key,
+    required this.product,
+  }) : super(key: key);
 
   @override
   State<ProductDetail> createState() => _ProductDetailState();
@@ -51,7 +56,9 @@ class _ProductDetailState extends State<ProductDetail> {
                 physics: const BouncingScrollPhysics(),
                 child: Column(
                   children: [
-                    ProductImageView(),
+                    ProductImageView(
+                      image: widget.product.imageProduct!,
+                    ),
                     Container(
                       transform: Matrix4.translationValues(0.0, -25.0, 0.0),
                       padding: const EdgeInsets.only(
@@ -66,15 +73,18 @@ class _ProductDetailState extends State<ProductDetail> {
                       ),
                       child: Column(
                         children: [
-                          const ProductTitleView(averageRatting: "0"),
+                          ProductTitleView(
+                            product: widget.product,
+                          ),
                           Container(
                             height: 250,
                             margin: const EdgeInsets.only(
                                 top: Dimensions.paddingSizeSmall),
                             padding: const EdgeInsets.all(
                                 Dimensions.paddingSizeSmall),
-                            child: const ProductSpecification(
-                                productSpecification: 'Description'),
+                            child: ProductSpecification(
+                                productSpecification:
+                                    widget.product.description!),
                           ),
                           const SizedBox(),
                         ],
@@ -83,7 +93,7 @@ class _ProductDetailState extends State<ProductDetail> {
                   ],
                 )),
           ),
-          bottomNavigationBar: const BottomCartView()),
+          bottomNavigationBar: BottomCartView(product: widget.product,)),
     );
   }
 }

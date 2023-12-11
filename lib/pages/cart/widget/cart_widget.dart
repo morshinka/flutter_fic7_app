@@ -1,7 +1,6 @@
 // import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-import '../../product/product_detail.dart';
 import '../../utils/color_resource.dart';
 import '../../utils/custom_themes.dart';
 import '../../utils/dimensions.dart';
@@ -17,12 +16,12 @@ class CartWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Navigator.push(
-            context,
-            PageRouteBuilder(
-              transitionDuration: const Duration(milliseconds: 1000),
-              pageBuilder: (context, anim1, anim2) => const ProductDetail(),
-            ));
+        // Navigator.push(
+        //     context,
+        //     PageRouteBuilder(
+        //       transitionDuration: const Duration(milliseconds: 1000),
+        //       pageBuilder: (context, anim1, anim2) => const ProductDetail(),
+        //     ));
       },
       child: Container(
         margin: const EdgeInsets.only(top: Dimensions.paddingSizeSmall),

@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 
 import '../../utils/color_resource.dart';
@@ -5,10 +6,11 @@ import '../../utils/dimensions.dart';
 import '../../utils/images.dart';
 import 'favourite_buttom.dart';
 
-
 class ProductImageView extends StatelessWidget {
+  final String image;
   ProductImageView({
     Key? key,
+    required this.image,
   }) : super(key: key);
 
   final PageController _controller = PageController();
@@ -49,7 +51,7 @@ class ProductImageView extends StatelessWidget {
                         placeholder: Images.placeholder,
                         height: MediaQuery.of(context).size.width,
                         width: MediaQuery.of(context).size.width,
-                        image: 'https://picsum.photos/250',
+                        image: image,
                         imageErrorBuilder: (c, o, s) => Image.asset(
                           Images.placeholder,
                           height: MediaQuery.of(context).size.width,

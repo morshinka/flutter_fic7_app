@@ -1,4 +1,8 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
+
+import 'package:flutter_fic7_app/data/models/request/product_response_model.dart';
+import 'package:flutter_fic7_app/pages/utils/price_ext.dart';
 
 import '../../utils/color_resource.dart';
 import '../../utils/custom_themes.dart';
@@ -6,8 +10,13 @@ import '../../utils/dimensions.dart';
 
 class ProductTitleView extends StatelessWidget {
   // final pd.ProductDetailsModel? productModel;
+  final Product product;
   final String? averageRatting;
-  const ProductTitleView({Key? key, this.averageRatting}) : super(key: key);
+  const ProductTitleView({
+    Key? key,
+    required this.product,
+    this.averageRatting,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +30,7 @@ class ProductTitleView extends StatelessWidget {
           children: [
             Row(children: [
               Expanded(
-                  child: Text('Product Name',
+                  child: Text(product.name!,
                       style: titleRegular.copyWith(
                           fontSize: Dimensions.fontSizeLarge),
                       maxLines: 2)),
@@ -29,7 +38,7 @@ class ProductTitleView extends StatelessWidget {
               Column(
                 children: [
                   Text(
-                    'Rp 4.000.000',
+                    '${product.price}'.formatPrice(),
                     style: titilliumBold.copyWith(
                         color: ColorResources.getPrimary(context),
                         fontSize: Dimensions.fontSizeLarge),
