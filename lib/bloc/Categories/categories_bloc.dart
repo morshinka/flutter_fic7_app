@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter_fic7_app/data/datasource/category_remote_datasource.dart';
-import 'package:flutter_fic7_app/data/models/request/categories_response_model.dart';
+import 'package:flutter_fic7_app/data/models/categories_response_model.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'categories_event.dart';

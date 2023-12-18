@@ -1,6 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter_fic7_app/common/global_variables.dart';
-import 'package:flutter_fic7_app/data/models/request/categories_response_model.dart';
+import 'package:flutter_fic7_app/data/models/categories_response_model.dart';
 import 'package:http/http.dart' as http;
 
 class CategoryRemoteDatasource {
