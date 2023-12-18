@@ -6,10 +6,10 @@ import 'package:flutter_fic7_app/bloc/Checkout/checkout_bloc.dart';
 import 'package:flutter_fic7_app/pages/utils/price_ext.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
-import 'package:flutter_fic7_app/data/models/request/product_response_model.dart';
+import 'package:flutter_fic7_app/data/models/product_response_model.dart';
 
 import '../../base_widgets/button/custom_button.dart';
-import '../../cart/cart_page.dart';
+// import '../../cart/cart_page.dart';
 import '../../utils/color_resource.dart';
 import '../../utils/custom_themes.dart';
 import '../../utils/dimensions.dart';

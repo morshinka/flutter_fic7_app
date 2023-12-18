@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_fic7_app/bloc/Checkout/checkout_bloc.dart';
+import 'package:flutter_fic7_app/bloc/Order/order_bloc.dart';
+import 'package:flutter_fic7_app/data/models/request/order_request_model.dart';
+import 'package:flutter_fic7_app/pages/utils/price_ext.dart';
 
 import '../base_widgets/amount_widget.dart';
 import '../base_widgets/payment/payment_page.dart';
@@ -16,181 +21,257 @@ class CheckoutPage extends StatefulWidget {
 
 class _CheckoutPageState extends State<CheckoutPage> {
   final TextEditingController _shoppingAddress = TextEditingController();
+  int subPrice = 0;
+  int totalPrice = 0;
+  List<Item> items = [];
+  int shippingCost = 30000;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Checkout')),
-      body: ListView(
-        physics: const BouncingScrollPhysics(),
-        children: [
-          const SizedBox(
-            height: 8,
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(
-                horizontal: Dimensions.paddingSizeDefault),
-            child: Text(
-              'Shipping Address',
-              style: robotoBold.copyWith(fontSize: Dimensions.fontSizeLarge),
-            ),
-          ),
-          Container(
-              padding: const EdgeInsets.all(Dimensions.paddingSizeSmall),
-              child: TextField(
-                controller: _shoppingAddress,
-                maxLines: 4,
-                decoration: const InputDecoration(
-                    border:
-                        OutlineInputBorder(borderSide: BorderSide(width: 1))),
-              )),
-          Padding(
-            padding: const EdgeInsets.symmetric(
-                horizontal: Dimensions.paddingSizeDefault),
-            child: Text(
-              'Order Detail',
-              style: robotoBold.copyWith(fontSize: Dimensions.fontSizeLarge),
-            ),
-          ),
-          Container(
-            // transform: Matrix4.translationValues(0.0, -30.0, 0.0),
-            child: ListView.builder(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                itemCount: 2,
-                itemBuilder: (ctx, index) {
-                  return Padding(
-                    padding:
-                        const EdgeInsets.all(Dimensions.paddingSizeDefault),
-                    child: Row(children: [
-                      Container(
-                        decoration: BoxDecoration(
-                          border: Border.all(
-                              width: .5,
-                              color: Theme.of(context)
-                                  .primaryColor
-                                  .withOpacity(.25)),
-                          borderRadius: BorderRadius.circular(
-                              Dimensions.paddingSizeExtraExtraSmall),
-                        ),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(
-                              Dimensions.paddingSizeExtraExtraSmall),
-                          child: FadeInImage.assetNetwork(
-                            placeholder: Images.placeholder,
-                            fit: BoxFit.cover,
-                            width: 50,
-                            height: 50,
-                            image: '',
-                            imageErrorBuilder: (c, o, s) => Image.asset(
-                                Images.placeholder,
-                                fit: BoxFit.cover,
-                                width: 50,
-                                height: 50),
-                          ),
-                        ),
-                      ),
-                      const SizedBox(width: Dimensions.marginSizeDefault),
-                      Expanded(
-                        flex: 3,
-                        child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                children: [
-                                  Expanded(
-                                    child: Text(
-                                      'Name',
-                                      style: titilliumRegular.copyWith(
-                                          fontSize: Dimensions.fontSizeDefault,
-                                          color: ColorResources.getPrimary(
-                                              context)),
-                                      maxLines: 2,
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
+      body: BlocBuilder<CheckoutBloc, CheckoutState>(
+        builder: (context, state) {
+          return state.maybeWhen(
+            orElse: () {
+              return const CircularProgressIndicator();
+            },
+            loaded: (products) {
+              items = products
+                  .map((e) => Item(id: e.product.id!, quantity: e.quantity))
+                  .toList();
+              products.forEach(
+                (element) {
+                  subPrice += element.quantity * element.product.price!;
+                },
+              );
+              totalPrice = subPrice + shippingCost;
+              return ListView(
+                physics: const BouncingScrollPhysics(),
+                children: [
+                  const SizedBox(
+                    height: 8,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: Dimensions.paddingSizeDefault),
+                    child: Text(
+                      'Shipping Address',
+                      style: robotoBold.copyWith(
+                          fontSize: Dimensions.fontSizeLarge),
+                    ),
+                  ),
+                  Container(
+                      padding:
+                          const EdgeInsets.all(Dimensions.paddingSizeSmall),
+                      child: TextField(
+                        controller: _shoppingAddress,
+                        maxLines: 4,
+                        decoration: const InputDecoration(
+                            border: OutlineInputBorder(
+                                borderSide: BorderSide(width: 1))),
+                      )),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: Dimensions.paddingSizeDefault),
+                    child: Text(
+                      'Order Detail',
+                      style: robotoBold.copyWith(
+                          fontSize: Dimensions.fontSizeLarge),
+                    ),
+                  ),
+                  Container(
+                    // transform: Matrix4.translationValues(0.0, -30.0, 0.0),
+                    child: ListView.builder(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemCount: products.length,
+                        itemBuilder: (ctx, index) {
+                          final productQuantity = products[index];
+                          return Padding(
+                            padding: const EdgeInsets.all(
+                                Dimensions.paddingSizeDefault),
+                            child: Row(children: [
+                              Container(
+                                decoration: BoxDecoration(
+                                  border: Border.all(
+                                      width: .5,
+                                      color: Theme.of(context)
+                                          .primaryColor
+                                          .withOpacity(.25)),
+                                  borderRadius: BorderRadius.circular(
+                                      Dimensions.paddingSizeExtraExtraSmall),
+                                ),
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(
+                                      Dimensions.paddingSizeExtraExtraSmall),
+                                  child: FadeInImage.assetNetwork(
+                                    placeholder: Images.placeholder,
+                                    fit: BoxFit.cover,
+                                    width: 50,
+                                    height: 50,
+                                    image:
+                                        productQuantity.product.imageProduct!,
+                                    imageErrorBuilder: (c, o, s) => Image.asset(
+                                        Images.placeholder,
+                                        fit: BoxFit.cover,
+                                        width: 50,
+                                        height: 50),
                                   ),
-                                  const SizedBox(
-                                    width: Dimensions.paddingSizeSmall,
-                                  ),
-                                  Text(
-                                    'Rp 2000.000',
-                                    style: titilliumSemiBold.copyWith(
-                                        fontSize: Dimensions.fontSizeLarge),
-                                  ),
-                                ],
+                                ),
                               ),
                               const SizedBox(
-                                  height: Dimensions.marginSizeExtraSmall),
-                              Row(children: [
-                                Text('Qty -  10',
-                                    style: titilliumRegular.copyWith()),
-                              ]),
+                                  width: Dimensions.marginSizeDefault),
+                              Expanded(
+                                flex: 3,
+                                child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Row(
+                                        children: [
+                                          Expanded(
+                                            child: Text(
+                                              productQuantity.product.name!,
+                                              style: titilliumRegular.copyWith(
+                                                  fontSize: Dimensions
+                                                      .fontSizeDefault,
+                                                  color:
+                                                      ColorResources.getPrimary(
+                                                          context)),
+                                              maxLines: 2,
+                                              overflow: TextOverflow.ellipsis,
+                                            ),
+                                          ),
+                                          const SizedBox(
+                                            width: Dimensions.paddingSizeSmall,
+                                          ),
+                                          Text(
+                                            '${productQuantity.product.price! * productQuantity.quantity}'
+                                                .formatPrice(),
+                                            style: titilliumSemiBold.copyWith(
+                                                fontSize:
+                                                    Dimensions.fontSizeLarge),
+                                          ),
+                                        ],
+                                      ),
+                                      const SizedBox(
+                                          height:
+                                              Dimensions.marginSizeExtraSmall),
+                                      Row(children: [
+                                        Text(
+                                            'Qty -  ${productQuantity.quantity}',
+                                            style: titilliumRegular.copyWith()),
+                                      ]),
+                                    ]),
+                              ),
                             ]),
-                      ),
-                    ]),
-                  );
-                }),
-          ),
-          Container(
-            height: 40,
-            width: MediaQuery.of(context).size.width,
-            decoration: BoxDecoration(
-              color: Theme.of(context).primaryColor.withOpacity(.055),
-            ),
-            child: Center(
-                child: Text(
-              'Order Summary',
-              style: titilliumSemiBold.copyWith(
-                  fontSize: Dimensions.fontSizeLarge),
-            )),
-          ),
-          // Total bill
-          Container(
-              margin: const EdgeInsets.only(top: Dimensions.paddingSizeSmall),
-              padding: const EdgeInsets.all(Dimensions.paddingSizeSmall),
-              color: Theme.of(context).highlightColor,
-              child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const AmountWidget(
-                        title: 'Sub Total :', amount: 'Rp 2.400.000'),
-                    const AmountWidget(
-                        title: 'Shipping Cost: ', amount: 'Rp 22.000'),
-                    Divider(height: 5, color: Theme.of(context).hintColor),
-                    const AmountWidget(
-                        title: 'Total :', amount: 'Rp 2.422.000'),
-                  ])),
-        ],
-      ),
-      bottomNavigationBar: InkWell(
-        onTap: () {
-          Navigator.push(context, MaterialPageRoute(builder: (context) {
-            return const PaymentPage(
-                url:
-                    'https://app.sandbox.midtrans.com/snap/v3/redirection/ab82a184-d0dd-4f6f-b9b3-977e0223f801');
-          }));
+                          );
+                        }),
+                  ),
+                  Container(
+                    height: 40,
+                    width: MediaQuery.of(context).size.width,
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).primaryColor.withOpacity(.055),
+                    ),
+                    child: Center(
+                        child: Text(
+                      'Order Summary',
+                      style: titilliumSemiBold.copyWith(
+                          fontSize: Dimensions.fontSizeLarge),
+                    )),
+                  ),
+                  // Total bill
+                  Container(
+                    margin:
+                        const EdgeInsets.only(top: Dimensions.paddingSizeSmall),
+                    padding: const EdgeInsets.all(Dimensions.paddingSizeSmall),
+                    color: Theme.of(context).highlightColor,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        AmountWidget(
+                          title: 'Sub Total :',
+                          amount: '$subPrice'.formatPrice(),
+                        ),
+                        AmountWidget(
+                          title: 'Shipping Cost: ',
+                          amount: '$shippingCost'.formatPrice(),
+                        ),
+                        Divider(height: 5, color: Theme.of(context).hintColor),
+                        AmountWidget(
+                          title: 'Total :',
+                          amount: '$totalPrice'.formatPrice(),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              );
+            },
+          );
         },
-        child: Container(
-          height: 60,
-          padding: const EdgeInsets.symmetric(
-              horizontal: Dimensions.paddingSizeLarge,
-              vertical: Dimensions.paddingSizeDefault),
-          decoration: BoxDecoration(
-            color: ColorResources.getPrimary(context),
-          ),
-          child: Center(
-              child: Builder(
-            builder: (context) => Padding(
-              padding: EdgeInsets.symmetric(
-                  horizontal: MediaQuery.of(context).size.width / 2.9),
-              child: Text('Proceed',
-                  style: titilliumSemiBold.copyWith(
-                    fontSize: Dimensions.fontSizeExtraLarge,
-                    color: Theme.of(context).cardColor,
+      ),
+      bottomNavigationBar: BlocConsumer<OrderBloc, OrderState>(
+        listener: (context, state) {
+          state.maybeWhen(
+            orElse: () {},
+            loaded: (data) {
+              Navigator.push(context, MaterialPageRoute(builder: (context) {
+                return PaymentPage(
+                  url: data.data.paymentUrl,
+                );
+              }));
+            },
+          );
+        },
+        builder: (context, state) {
+          return state.maybeWhen(
+            orElse: () {
+              return InkWell(
+                onTap: () {
+                  final requestModel = OrderRequestModel(
+                    items: items,
+                    totalPrice: totalPrice,
+                    deliveyAddress: _shoppingAddress.text,
+                    sellerId: 4,
+                  );
+                  context.read<OrderBloc>().add(OrderEvent.order(requestModel));
+                },
+                child: Container(
+                  height: 60,
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: Dimensions.paddingSizeLarge,
+                      vertical: Dimensions.paddingSizeDefault),
+                  decoration: BoxDecoration(
+                    color: ColorResources.getPrimary(context),
+                  ),
+                  child: Center(
+                      child: Builder(
+                    builder: (context) => Padding(
+                      padding: EdgeInsets.symmetric(
+                          horizontal: MediaQuery.of(context).size.width / 2.9),
+                      child: Text('Proceed',
+                          style: titilliumSemiBold.copyWith(
+                            fontSize: Dimensions.fontSizeExtraLarge,
+                            color: Theme.of(context).cardColor,
+                          )),
+                    ),
                   )),
-            ),
-          )),
-        ),
+                ),
+              );
+            },
+            loading: () {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            },
+            error: (message) {
+              return Text(message);
+            },
+          );
+        },
       ),
     );
   }

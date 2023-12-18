@@ -1,7 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 
-import 'package:flutter_fic7_app/data/models/request/categories_response_model.dart';
+import 'package:flutter_fic7_app/data/models/categories_response_model.dart';
 import 'package:flutter_fic7_app/pages/Product/category_products_page.dart';
 
 import '../../utils/color_resource.dart';
