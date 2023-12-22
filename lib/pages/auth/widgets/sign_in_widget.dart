@@ -134,6 +134,14 @@ class SignInWidgetState extends State<SignInWidget> {
                         return const DashboardPage();
                       }), (route) => false);
                     },
+                    error: (message) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(message),
+                          backgroundColor: Colors.red,
+                        ),
+                      );
+                    },
                   );
                 },
                 builder: (context, state) {

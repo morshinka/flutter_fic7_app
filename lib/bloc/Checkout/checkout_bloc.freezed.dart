@@ -21,6 +21,7 @@ mixin _$CheckoutEvent {
     required TResult Function() started,
     required TResult Function(Product product, int quantity) addToChart,
     required TResult Function(Product product, int quantity) removeToChart,
+    required TResult Function() clear,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -28,6 +29,7 @@ mixin _$CheckoutEvent {
     TResult? Function()? started,
     TResult? Function(Product product, int quantity)? addToChart,
     TResult? Function(Product product, int quantity)? removeToChart,
+    TResult? Function()? clear,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -35,6 +37,7 @@ mixin _$CheckoutEvent {
     TResult Function()? started,
     TResult Function(Product product, int quantity)? addToChart,
     TResult Function(Product product, int quantity)? removeToChart,
+    TResult Function()? clear,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -43,6 +46,7 @@ mixin _$CheckoutEvent {
     required TResult Function(_Started value) started,
     required TResult Function(_AddToChart value) addToChart,
     required TResult Function(_RemoveToChart value) removeToChart,
+    required TResult Function(_Clear value) clear,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -50,6 +54,7 @@ mixin _$CheckoutEvent {
     TResult? Function(_Started value)? started,
     TResult? Function(_AddToChart value)? addToChart,
     TResult? Function(_RemoveToChart value)? removeToChart,
+    TResult? Function(_Clear value)? clear,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -57,6 +62,7 @@ mixin _$CheckoutEvent {
     TResult Function(_Started value)? started,
     TResult Function(_AddToChart value)? addToChart,
     TResult Function(_RemoveToChart value)? removeToChart,
+    TResult Function(_Clear value)? clear,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -121,6 +127,7 @@ class _$StartedImpl implements _Started {
     required TResult Function() started,
     required TResult Function(Product product, int quantity) addToChart,
     required TResult Function(Product product, int quantity) removeToChart,
+    required TResult Function() clear,
   }) {
     return started();
   }
@@ -131,6 +138,7 @@ class _$StartedImpl implements _Started {
     TResult? Function()? started,
     TResult? Function(Product product, int quantity)? addToChart,
     TResult? Function(Product product, int quantity)? removeToChart,
+    TResult? Function()? clear,
   }) {
     return started?.call();
   }
@@ -141,6 +149,7 @@ class _$StartedImpl implements _Started {
     TResult Function()? started,
     TResult Function(Product product, int quantity)? addToChart,
     TResult Function(Product product, int quantity)? removeToChart,
+    TResult Function()? clear,
     required TResult orElse(),
   }) {
     if (started != null) {
@@ -155,6 +164,7 @@ class _$StartedImpl implements _Started {
     required TResult Function(_Started value) started,
     required TResult Function(_AddToChart value) addToChart,
     required TResult Function(_RemoveToChart value) removeToChart,
+    required TResult Function(_Clear value) clear,
   }) {
     return started(this);
   }
@@ -165,6 +175,7 @@ class _$StartedImpl implements _Started {
     TResult? Function(_Started value)? started,
     TResult? Function(_AddToChart value)? addToChart,
     TResult? Function(_RemoveToChart value)? removeToChart,
+    TResult? Function(_Clear value)? clear,
   }) {
     return started?.call(this);
   }
@@ -175,6 +186,7 @@ class _$StartedImpl implements _Started {
     TResult Function(_Started value)? started,
     TResult Function(_AddToChart value)? addToChart,
     TResult Function(_RemoveToChart value)? removeToChart,
+    TResult Function(_Clear value)? clear,
     required TResult orElse(),
   }) {
     if (started != null) {
@@ -264,6 +276,7 @@ class _$AddToChartImpl implements _AddToChart {
     required TResult Function() started,
     required TResult Function(Product product, int quantity) addToChart,
     required TResult Function(Product product, int quantity) removeToChart,
+    required TResult Function() clear,
   }) {
     return addToChart(product, quantity);
   }
@@ -274,6 +287,7 @@ class _$AddToChartImpl implements _AddToChart {
     TResult? Function()? started,
     TResult? Function(Product product, int quantity)? addToChart,
     TResult? Function(Product product, int quantity)? removeToChart,
+    TResult? Function()? clear,
   }) {
     return addToChart?.call(product, quantity);
   }
@@ -284,6 +298,7 @@ class _$AddToChartImpl implements _AddToChart {
     TResult Function()? started,
     TResult Function(Product product, int quantity)? addToChart,
     TResult Function(Product product, int quantity)? removeToChart,
+    TResult Function()? clear,
     required TResult orElse(),
   }) {
     if (addToChart != null) {
@@ -298,6 +313,7 @@ class _$AddToChartImpl implements _AddToChart {
     required TResult Function(_Started value) started,
     required TResult Function(_AddToChart value) addToChart,
     required TResult Function(_RemoveToChart value) removeToChart,
+    required TResult Function(_Clear value) clear,
   }) {
     return addToChart(this);
   }
@@ -308,6 +324,7 @@ class _$AddToChartImpl implements _AddToChart {
     TResult? Function(_Started value)? started,
     TResult? Function(_AddToChart value)? addToChart,
     TResult? Function(_RemoveToChart value)? removeToChart,
+    TResult? Function(_Clear value)? clear,
   }) {
     return addToChart?.call(this);
   }
@@ -318,6 +335,7 @@ class _$AddToChartImpl implements _AddToChart {
     TResult Function(_Started value)? started,
     TResult Function(_AddToChart value)? addToChart,
     TResult Function(_RemoveToChart value)? removeToChart,
+    TResult Function(_Clear value)? clear,
     required TResult orElse(),
   }) {
     if (addToChart != null) {
@@ -414,6 +432,7 @@ class _$RemoveToChartImpl implements _RemoveToChart {
     required TResult Function() started,
     required TResult Function(Product product, int quantity) addToChart,
     required TResult Function(Product product, int quantity) removeToChart,
+    required TResult Function() clear,
   }) {
     return removeToChart(product, quantity);
   }
@@ -424,6 +443,7 @@ class _$RemoveToChartImpl implements _RemoveToChart {
     TResult? Function()? started,
     TResult? Function(Product product, int quantity)? addToChart,
     TResult? Function(Product product, int quantity)? removeToChart,
+    TResult? Function()? clear,
   }) {
     return removeToChart?.call(product, quantity);
   }
@@ -434,6 +454,7 @@ class _$RemoveToChartImpl implements _RemoveToChart {
     TResult Function()? started,
     TResult Function(Product product, int quantity)? addToChart,
     TResult Function(Product product, int quantity)? removeToChart,
+    TResult Function()? clear,
     required TResult orElse(),
   }) {
     if (removeToChart != null) {
@@ -448,6 +469,7 @@ class _$RemoveToChartImpl implements _RemoveToChart {
     required TResult Function(_Started value) started,
     required TResult Function(_AddToChart value) addToChart,
     required TResult Function(_RemoveToChart value) removeToChart,
+    required TResult Function(_Clear value) clear,
   }) {
     return removeToChart(this);
   }
@@ -458,6 +480,7 @@ class _$RemoveToChartImpl implements _RemoveToChart {
     TResult? Function(_Started value)? started,
     TResult? Function(_AddToChart value)? addToChart,
     TResult? Function(_RemoveToChart value)? removeToChart,
+    TResult? Function(_Clear value)? clear,
   }) {
     return removeToChart?.call(this);
   }
@@ -468,6 +491,7 @@ class _$RemoveToChartImpl implements _RemoveToChart {
     TResult Function(_Started value)? started,
     TResult Function(_AddToChart value)? addToChart,
     TResult Function(_RemoveToChart value)? removeToChart,
+    TResult Function(_Clear value)? clear,
     required TResult orElse(),
   }) {
     if (removeToChart != null) {
@@ -486,6 +510,120 @@ abstract class _RemoveToChart implements CheckoutEvent {
   @JsonKey(ignore: true)
   _$$RemoveToChartImplCopyWith<_$RemoveToChartImpl> get copyWith =>
       throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$ClearImplCopyWith<$Res> {
+  factory _$$ClearImplCopyWith(
+          _$ClearImpl value, $Res Function(_$ClearImpl) then) =
+      __$$ClearImplCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$ClearImplCopyWithImpl<$Res>
+    extends _$CheckoutEventCopyWithImpl<$Res, _$ClearImpl>
+    implements _$$ClearImplCopyWith<$Res> {
+  __$$ClearImplCopyWithImpl(
+      _$ClearImpl _value, $Res Function(_$ClearImpl) _then)
+      : super(_value, _then);
+}
+
+/// @nodoc
+
+class _$ClearImpl implements _Clear {
+  const _$ClearImpl();
+
+  @override
+  String toString() {
+    return 'CheckoutEvent.clear()';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is _$ClearImpl);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() started,
+    required TResult Function(Product product, int quantity) addToChart,
+    required TResult Function(Product product, int quantity) removeToChart,
+    required TResult Function() clear,
+  }) {
+    return clear();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? started,
+    TResult? Function(Product product, int quantity)? addToChart,
+    TResult? Function(Product product, int quantity)? removeToChart,
+    TResult? Function()? clear,
+  }) {
+    return clear?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? started,
+    TResult Function(Product product, int quantity)? addToChart,
+    TResult Function(Product product, int quantity)? removeToChart,
+    TResult Function()? clear,
+    required TResult orElse(),
+  }) {
+    if (clear != null) {
+      return clear();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_Started value) started,
+    required TResult Function(_AddToChart value) addToChart,
+    required TResult Function(_RemoveToChart value) removeToChart,
+    required TResult Function(_Clear value) clear,
+  }) {
+    return clear(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_Started value)? started,
+    TResult? Function(_AddToChart value)? addToChart,
+    TResult? Function(_RemoveToChart value)? removeToChart,
+    TResult? Function(_Clear value)? clear,
+  }) {
+    return clear?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Started value)? started,
+    TResult Function(_AddToChart value)? addToChart,
+    TResult Function(_RemoveToChart value)? removeToChart,
+    TResult Function(_Clear value)? clear,
+    required TResult orElse(),
+  }) {
+    if (clear != null) {
+      return clear(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _Clear implements CheckoutEvent {
+  const factory _Clear() = _$ClearImpl;
 }
 
 /// @nodoc

@@ -4,6 +4,7 @@ import 'package:flutter_fic7_app/bloc/Categories/categories_bloc.dart';
 import 'package:flutter_fic7_app/bloc/Checkout/checkout_bloc.dart';
 import 'package:flutter_fic7_app/bloc/Order/order_bloc.dart';
 import 'package:flutter_fic7_app/bloc/Products/products_bloc.dart';
+import 'package:flutter_fic7_app/bloc/banners/banners_bloc.dart';
 import 'package:flutter_fic7_app/bloc/login/login_bloc.dart';
 import 'package:flutter_fic7_app/bloc/logout/logout_bloc.dart';
 import 'package:flutter_fic7_app/data/datasource/auth_local_datasource.dart';
@@ -44,6 +45,9 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (context) => OrderBloc(),
+        ),
+        BlocProvider(
+          create: (context) => BannersBloc(),
         ),
       ],
       child: MaterialApp(
