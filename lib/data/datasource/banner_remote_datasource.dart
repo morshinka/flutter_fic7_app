@@ -10,7 +10,7 @@ class BannerRemoteDatasource {
       'Content-Type': 'application/json',
     };
     final response = await http.get(
-        Uri.parse('${GlobarVariables.baseUrl}/api/benners'),
+        Uri.parse('${GlobarVariables.baseUrl}/api/banners'),
         headers: headers);
     if (response.statusCode == 200) {
       return right(BannersResponseModel.fromJson(response.body));
