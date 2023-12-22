@@ -40,11 +40,9 @@ class _CheckoutPageState extends State<CheckoutPage> {
               items = products
                   .map((e) => Item(id: e.product.id!, quantity: e.quantity))
                   .toList();
-              products.forEach(
-                (element) {
-                  subPrice += element.quantity * element.product.price!;
-                },
-              );
+              for (var element in products) {
+                subPrice += element.quantity * element.product.price!;
+              }
               totalPrice = subPrice + shippingCost;
               return ListView(
                 physics: const BouncingScrollPhysics(),
@@ -238,6 +236,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
                     sellerId: 4,
                   );
                   context.read<OrderBloc>().add(OrderEvent.order(requestModel));
+                  context.read<CheckoutBloc>().add(const CheckoutEvent.clear());
                 },
                 child: Container(
                   height: 60,

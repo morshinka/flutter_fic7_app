@@ -81,9 +81,9 @@ class _BottomCartViewState extends State<BottomCartView> {
                           },
                           loaded: (value) {
                             int totalQty = 0;
-                            value.products.forEach((element) {
+                            for (var element in value.products) {
                               totalQty += element.quantity;
-                            });
+                            }
                             return Text(
                               '$totalQty',
                               style: titilliumSemiBold.copyWith(
